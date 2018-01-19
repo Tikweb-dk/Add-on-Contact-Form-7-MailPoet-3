@@ -3,9 +3,9 @@ Contributors: kasperta
 Tags: mailpoet, contact form 7, cf7, form, forms, contact form, wysija, mail, email, e-mail, extension, add-on, newsletter, newsletters, subscription, checkout, list, lists, double opt-in
 Donate link: http://www.tikweb.dk/donate/
 Requires at least: 4.6
-Tested up to: 4.8
+Tested up to: 4.9
 Requires PHP: 5.2
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 
 Add a MailPoet 3 signup field to your Contact Form 7 forms.
 
@@ -82,6 +82,12 @@ After installing & activating the plugin it's time to set up your form.
 
 == Changelog ==
 
+= 1.1.0 – 2017-11-22 =
+* Fixed auto subscribed issue.
+
+= 1.0.2 – 2017-11-07 =
+* This plugin 1.0.2 is working if you have multiple mailpoetsignup-checkboxes on one submit.
+
 = 1.0.1 =
 * Fixed Text Domain inssues
 * Fixed confirmation email issue
@@ -91,9 +97,6 @@ After installing & activating the plugin it's time to set up your form.
 
 == Upgrade Notice ==
 
-= 1.0.1 =
-* Fixed Text Domain inssues
-* Fixed confirmation email issue
+= x.0.0 =
+* There are nothing else needed, than upgrading from the WordPress pluings screen.
 
-= 1.0.0 =
-* Initial release.

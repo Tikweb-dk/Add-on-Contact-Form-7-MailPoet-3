@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Add-on Add-on Contact Form 7 - Mailpoet 3
  * Description:       Add a MailPoet 3 signup field to your Contact Form 7 forms.
- * Version:           1.0.1
+ * Version:           1.1.0
  * Author:            Tikweb
  * Author URI:        http://www.tikweb.dk/
  * License:           GPL-2.0+
