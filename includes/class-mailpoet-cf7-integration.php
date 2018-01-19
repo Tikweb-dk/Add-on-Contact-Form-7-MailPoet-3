@@ -2,8 +2,8 @@
 /**
  * The core plugin class.
  * @since      1.0.0
- * @package    MailPoet 3 – Contact Form 7 Integration
- * @subpackage mailpoet-3-contact-form-7/includes
+ * @package    Add-on Add-on Contact Form 7 - Mailpoet 3 Integration
+ * @subpackage add-on-contact-form-7-mailpoet/includes
  * @author     Tikweb <kasper@tikjob.dk>
  */
 
@@ -131,7 +131,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 		 */
 		public function __($text)
 		{
-			return __($text, 'mpcf7');
+			return __($text, 'add-on-contact-form-7-mailpoet');
 		}//End of __
 
 		/**

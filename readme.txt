@@ -5,7 +5,7 @@ Donate link: http://www.tikweb.dk/donate/
 Requires at least: 4.6
 Tested up to: 4.8
 Requires PHP: 5.2
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 
 Add a MailPoet 3 signup field to your Contact Form 7 forms.
 
@@ -82,10 +82,18 @@ After installing & activating the plugin it's time to set up your form.
 
 == Changelog ==
 
+= 1.0.1 =
+* Fixed Text Domain inssues
+* Fixed confirmation email issue
+
 = 1.0.0 =
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+* Fixed Text Domain inssues
+* Fixed confirmation email issue
 
 = 1.0.0 =
 * Initial release.

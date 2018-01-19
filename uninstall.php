@@ -2,7 +2,7 @@
 /**
  * Fired when the plugin is uninstalled.
  * @since      1.0.0
- * @package    Contact Form 7 - MailPoet 3
+ * @package    Add-on Add-on Contact Form 7 - Mailpoet 3
  */
 
 // If uninstall not called from WordPress, then exit.

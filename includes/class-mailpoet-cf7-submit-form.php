@@ -2,8 +2,8 @@
 /**
  * After submit form run actions
  * @since      1.0.0
- * @package    MailPoet 3 – Contact Form 7 Integration
- * @subpackage mailpoet-3-contact-form-7/includes
+ * @package    Add-on Add-on Contact Form 7 - Mailpoet 3 Integration
+ * @subpackage add-on-contact-form-7-mailpoet/includes
  * @author     Tikweb <kasper@tikjob.dk>
  */
 
@@ -107,7 +107,7 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 				);
 
 				//Save subcriber data
-				$subscriber = Subscriber::createOrUpdate($subscribe_data);
+				$subscriber = Subscriber::subscribe($subscribe_data,$subscribe_data['segments']);
 
 			}else{
 				//If the dont have mailpoet tag then return
