@@ -59,6 +59,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 		 */
 		public function mailpoet_signup_form_tag($tag)
 		{
+
 			// Non AJAX Validation error
 			$validation_error = wpcf7_get_validation_error($tag->name);
 			$class = '';
@@ -78,44 +79,47 @@ if(!class_exists('MailPoet_CF7_Integration')){
 
 			//Array of list id
 			$list_array = $tag->get_option('list', 'int');
+			$mp_segments = $this->mailpoet_segments_data( $list_array );
 
 			//Make ready all attributes
 			$atts = array(
 				'class' => $tag->get_class_option($class),
 				'id' => $id,
-				'name' => $tag->name,
-				'value' => ($list_array) ? implode($list_array, ',') : '0'
+				'name' => $tag->name.'[]'
 			);
 			$attributes = wpcf7_format_atts($atts);
 
 			ob_start(); //Start buffer to return
-
-			// should the label be inside the span?
-			if($tag->has_option('label-inside-span')): //If Label Inside Span checked ?>
-
-				<span class="wpcf7-form-control-wrap <?php echo $tag->name; ?>">
-					<span class="<?php echo $controls_class; ?>">
-						<input type="checkbox" 
-							<?php echo $attributes; ?>
-							<?php checked($tag->has_option('default:on'), true); ?>
-						/>
-						<label for="<?php echo $id; ?>"><?php echo $label; ?></label>
-					</span>
-					<?php echo $validation_error; //Show validation error ?>
-				</span>
-
-			<?php else: //If Label Inside Span not checked  ?>
+			?>
+			
+			<?php if ( count( $mp_segments ) > 1 ): ?>
 
 				<span class="wpcf7-form-control-wrap <?php echo $tag->name; ?>">
 					<span class="<?php echo $controls_class; ?>">
-						<input type="checkbox" 
-							<?php echo $attributes; ?>
-							<?php checked($tag->has_option('default:on'), true); ?>
-						/>
+						<label class="wpcf7-list-label"><?php echo $label; ?><br/></label>
+							<?php foreach( $mp_segments as $key => $value ): ?>
+								<label>
+									<input type="checkbox" <?= $attributes; ?> value="<?= $key; ?>" <?php checked($tag->has_option('default:on'), true); ?>><span class="wpcf7-list-value"><?= $value; ?></span><br/>
+								</label>
+							<?php endforeach; ?>
+						
 					</span>
-					<label for="<?php echo $id; ?>"><?php echo $label; ?></label>
+
 					<?php echo $validation_error; //Show validation error ?>
 				</span>
+			<?php else: ?>
+				<span class="wpcf7-form-control-wrap <?php echo $tag->name; ?>">
+					<span class="<?php echo $controls_class; ?>">
+						<label class="wpcf7-list-label">
+							<input type="checkbox" 
+								<?php echo $attributes; ?>
+								value="<?php echo key( $mp_segments ); ?>"
+								<?php checked($tag->has_option('default:on'), true); ?>
+							/>
+						<?php echo $label; ?>	
+						</label>
+						
+					</span>
 
 			<?php
 			endif; //End of $tag->has_option('label-inside-span')
@@ -133,6 +137,26 @@ if(!class_exists('MailPoet_CF7_Integration')){
 		{
 			return __($text, 'add-on-contact-form-7-mailpoet');
 		}//End of __
+
+		public function mailpoet_segments_data( $list_ids ){
+			
+			if ( empty($list_ids) || !is_array($list_ids) ){
+				return [];
+			}
+
+			$segments = Segment::where_not_equal('type', Segment::TYPE_WP_USERS)->findArray();
+
+			$ret = array();
+
+			foreach ($list_ids as $key => $value) {
+
+				$seg_key = array_search( $value, array_column($segments, 'id') );
+				$ret[$value] = $segments[$seg_key]['name'];
+				
+			}
+
+			return $ret;
+		}
 
 		/**
 		 * Admin init
@@ -188,12 +212,26 @@ if(!class_exists('MailPoet_CF7_Integration')){
 
 							<tr>
 								<th scope="row">
+									<label for="subscriber-choice">
+										<?php echo $this->__('Let subscriber choose list'); ?>
+									</label>
+								</th>
+								<td>
+									<label>
+										<input type="checkbox" name="subscriber-choice" id="subscriber-choice">
+										<?php echo $this->__('Let your subscriber choose which list they will subscribe to!'); ?>
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
 									<label for="default:on"><?php echo $this->__('Checked by Default'); ?></label>
 								</th>
 								<td>
 									<label>
 										<input type="checkbox" name="default:on" class="option" id="default:on">
 										<?php echo $this->__("Make this checkbox checked by default?"); ?>
+										<div id="help"><i><?php echo $this->__("All choosen <code>MailPoet Lists</code> will be selected and subscriber will be tagged with all list."); ?></i></div>
 									</label>
 								</td>
 							</tr>
@@ -206,19 +244,6 @@ if(!class_exists('MailPoet_CF7_Integration')){
 									<input type="text" name="values" class="oneline" id="values" />
 								</td>
 							</tr>
-
-							<tr>
-								<th scope="row">
-									<label for="label-inside-span"><?php echo $this->__( 'Label Inside Span'); ?></label>
-								</th>
-								<td>
-									<label for="label-inside-span">
-										<input type="checkbox" name="label-inside-span" class="option" id="label-inside-span" />
-										<?php echo $this->__("Place the label inside the control wrap span?"); ?>
-									</label>
-								</td>
-							</tr>
-
 							<tr>
 								<th scope="row">
 									<label for="name"><?php esc_html_e( 'Name', 'contact-form-7' ); ?></label>
@@ -250,7 +275,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 					</table>
 				</fieldset>
 			</div><!-- /.control-box -->
-
+			
 			<!-- Show Insert shortcode in popup -->
 			<div class="insert-box">
 				<input type="text" name="mailpoetsignup" class="tag code" readonly="readonly" onfocus="this.select()" />
@@ -270,6 +295,14 @@ if(!class_exists('MailPoet_CF7_Integration')){
 					</label>
 				</p>
 			</div><!-- /.insert-box -->
+			<style>
+				#help{
+					display:none;
+				}
+				input[name="default:on"]:checked~#help{
+					display:block;
+				}
+			</style>
 			<?php
 		}//End of mailpoetsignup_tag_generator
 

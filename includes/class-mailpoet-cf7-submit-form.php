@@ -156,9 +156,10 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 		{
 			$ids_string_array = array();
 			$ids_string = '';
+			
 			foreach($mailpoetsignup as $mailpoet_name){
 				if(isset($form_data[$mailpoet_name]) && !empty($form_data[$mailpoet_name])){
-					$ids_string_array[] = $form_data[$mailpoet_name];
+					$ids_string_array = $form_data[$mailpoet_name];
 				}
 			}
 
