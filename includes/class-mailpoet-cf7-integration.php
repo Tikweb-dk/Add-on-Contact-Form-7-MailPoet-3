@@ -138,6 +138,9 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			return __($text, 'add-on-contact-form-7-mailpoet');
 		}//End of __
 
+		/**
+		 * Convert mailpoet list ids to list name
+		 */
 		public function mailpoet_segments_data( $list_ids ){
 			
 			if ( empty($list_ids) || !is_array($list_ids) ){
@@ -156,7 +159,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			}
 
 			return $ret;
-		}
+		} // End of mailpoet_segments_data
 
 		/**
 		 * Admin init
