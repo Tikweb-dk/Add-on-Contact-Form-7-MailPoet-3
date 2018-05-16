@@ -87,12 +87,17 @@ if(!class_exists('MailPoet_CF7_Integration')){
 				'id' => $id,
 				'name' => $tag->name.'[]'
 			);
+
+			if ( !$tag->has_option('subscriber-choice') ){
+				$atts['value'] = ($list_array) ? implode($list_array, ',') : '0';
+			}
+
 			$attributes = wpcf7_format_atts($atts);
 
 			ob_start(); //Start buffer to return
 			?>
 			
-			<?php if ( count( $mp_segments ) > 1 ): ?>
+			<?php if ( count( $mp_segments ) > 1 && $tag->has_option('subscriber-choice') ): ?>
 
 				<span class="wpcf7-form-control-wrap <?php echo $tag->name; ?>">
 					<span class="<?php echo $controls_class; ?>">
@@ -138,9 +143,6 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			return __($text, 'add-on-contact-form-7-mailpoet');
 		}//End of __
 
-		/**
-		 * Convert mailpoet list ids to list name
-		 */
 		public function mailpoet_segments_data( $list_ids ){
 			
 			if ( empty($list_ids) || !is_array($list_ids) ){
@@ -159,7 +161,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			}
 
 			return $ret;
-		} // End of mailpoet_segments_data
+		}
 
 		/**
 		 * Admin init
@@ -221,7 +223,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 								</th>
 								<td>
 									<label>
-										<input type="checkbox" name="subscriber-choice" id="subscriber-choice">
+										<input type="checkbox" name="subscriber-choice" class="option" id="subscriber-choice">
 										<?php echo $this->__('Let your subscriber choose which list they will subscribe to!'); ?>
 									</label>
 								</td>
