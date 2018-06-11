@@ -37,6 +37,9 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			add_filter( 'wpcf7_validate_mailpoetsignup', array($this, 'mailpoetsignup_validation'), 10, 2 );
 			add_filter( 'wpcf7_validate_mailpoetsignup*', array($this, 'mailpoetsignup_validation'), 10, 2 );
 
+			// message
+			add_filter( 'wpcf7_messages', array($this,'mailpoet_unsubscribed_msg') );
+
 		}//End of __construct
 
 		/**
@@ -59,7 +62,6 @@ if(!class_exists('MailPoet_CF7_Integration')){
 		 */
 		public function mailpoet_signup_form_tag($tag)
 		{
-
 			// Non AJAX Validation error
 			$validation_error = wpcf7_get_validation_error($tag->name);
 			$class = '';
@@ -104,11 +106,31 @@ if(!class_exists('MailPoet_CF7_Integration')){
 						<label class="wpcf7-list-label"><?php echo $label; ?><br/></label>
 							<?php foreach( $mp_segments as $key => $value ): ?>
 								<label>
-									<input type="checkbox" <?= $attributes; ?> value="<?= $key; ?>" <?php checked($tag->has_option('default:on'), true); ?>><span class="wpcf7-list-value"><?= $value; ?></span><br/>
+									<input type="checkbox" <?= $attributes; ?> value="<?= $key; ?>" <?php checked($tag->has_option('default:on'), true); ?>> <span class="wpcf7-list-value"><?= $value; ?></span><br/>
 								</label>
 							<?php endforeach; ?>
 						
 					</span>
+
+					<?php if ( $tag->has_option('unsubscribe-email') ): ?>
+						<span class="<?php echo $controls_class; ?>">
+							<label class="wpcf7-list-label"><?php echo $tag->get_option('unsubscribe_label')[0]; ?><br/></label>
+							<label>
+								<input type="checkbox" <?= $attributes; ?>><span class="wpcf7-list-value"><?php echo $tag->get_option('unsubscribe_label')[0]; ?></span><br/>
+							</label>
+						</span>
+						<script>
+							document.addEventListener( 'wpcf7mailsent', function( event ) {
+							    var unsub_req = event.detail.formData.get('unsubscribe-email')
+							    
+							    if ( unsub_req != null ){
+							    	event.detail.apiResponse.message += ' <strong><?php echo wpcf7_get_message( 'mailpoet_unsubscribed_msg' ); ?></strong>';
+							    }
+
+							}, false );
+						</script>
+
+					<?php endif; ?>
 
 					<?php echo $validation_error; //Show validation error ?>
 				</span>
@@ -123,8 +145,29 @@ if(!class_exists('MailPoet_CF7_Integration')){
 							/>
 						<?php echo $label; ?>	
 						</label>
-						
+						<br/>	
 					</span>
+
+					<?php if ( $tag->has_option('unsubscribe-email') ): ?>
+						<span class="<?php echo $controls_class; ?>">
+							<label class="wpcf7-list-label">
+								<input type="checkbox" name="unsubscribe-email" id="unsubscribe-email"> <?php echo $tag->get_option('unsubscribe_label')[0]; ?><br/>
+							</label>
+						</span>
+						<script>
+							document.addEventListener( 'wpcf7mailsent', function( event ) {
+							    var unsub_req = event.detail.formData.get('unsubscribe-email')
+							    
+							    if ( unsub_req != null ){
+							    	event.detail.apiResponse.message += ' <strong><?php echo wpcf7_get_message( 'mailpoet_unsubscribed_msg' ); ?></strong>';
+							    }
+
+							}, false );
+						</script>
+
+					<?php endif; ?>
+
+				</span>
 
 			<?php
 			endif; //End of $tag->has_option('label-inside-span')
@@ -143,6 +186,9 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			return __($text, 'add-on-contact-form-7-mailpoet');
 		}//End of __
 
+		/**
+		 * Convert mailpoet list ids to list name;
+		 */
 		public function mailpoet_segments_data( $list_ids ){
 			
 			if ( empty($list_ids) || !is_array($list_ids) ){
@@ -161,7 +207,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			}
 
 			return $ret;
-		}
+		} // End of mailpoet_segments_data
 
 		/**
 		 * Admin init
@@ -225,6 +271,32 @@ if(!class_exists('MailPoet_CF7_Integration')){
 									<label>
 										<input type="checkbox" name="subscriber-choice" class="option" id="subscriber-choice">
 										<?php echo $this->__('Let your subscriber choose which list they will subscribe to!'); ?>
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									<label for="unsubscribe-email">
+										<?php echo $this->__('Unsubscribe option'); ?>
+									</label>
+								</th>
+								<td>
+									<label>
+										<input type="checkbox" name="unsubscribe-email" id="unsubscribe-email" class="option">
+										<?php echo $this->__('Let subscriber unsubscribe through this form'); ?>
+									</label>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">
+									<label for="unsubscribe_label"><?php echo $this->__('Unsubscribe Label'); ?></label>
+								</th>
+								<td>
+									<label>
+										<span id="unsub_label">
+											<input type="text" name="unsubscribe_label" id="unsubscribe_label" class="option">
+											<?php echo $this->__('Unsubscribe checkbox label!'); ?>
+										</span>
 									</label>
 								</td>
 							</tr>
@@ -310,6 +382,20 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			</style>
 			<?php
 		}//End of mailpoetsignup_tag_generator
+
+		/**
+		 * Message to display after a subscriber request to unsubscribe.
+		 */
+		public function mailpoet_unsubscribed_msg( $msg ){
+
+			$msg['mailpoet_unsubscribed_msg'] = array(
+				'description'	=> 'Message to display after a subscriber being unsubscribed',
+				'default'		=> 'You are unsubscribed!'
+			);
+
+			return $msg;
+
+		}
 
 		/**
 		 * Form validation

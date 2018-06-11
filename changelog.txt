@@ -1,0 +1,14 @@
+== Changelog ==
+
+= 1.1.0 – 2017-11-22 =
+* Fixed auto subscribed issue.
+
+= 1.0.2 – 2017-11-07 =
+* This plugin 1.0.2 is working if you have multiple mailpoetsignup-checkboxes on one submit.
+
+= 1.0.1 =
+* Fixed Text Domain inssues
+* Fixed confirmation email issue
+
+= 1.0.0 =
+* Initial release.

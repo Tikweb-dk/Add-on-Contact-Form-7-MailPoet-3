@@ -5,7 +5,7 @@ Donate link: http://www.tikweb.dk/donate/
 Requires at least: 4.6
 Tested up to: 4.9
 Requires PHP: 5.2
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 
 Add a MailPoet 3 signup field to your Contact Form 7 forms.
 
@@ -82,18 +82,13 @@ After installing & activating the plugin it's time to set up your form.
 
 == Changelog ==
 
-= 1.1.0 – 2017-11-22 =
-* Fixed auto subscribed issue.
+= 1.2.0 – 2018-05-16 =
+* Added a new features that is, register with the lists that the user wants, not that all are mandatory.
 
-= 1.0.2 – 2017-11-07 =
-* This plugin 1.0.2 is working if you have multiple mailpoetsignup-checkboxes on one submit.
+All possible lists are created and that the user chooses which one to register.
 
-= 1.0.1 =
-* Fixed Text Domain inssues
-* Fixed confirmation email issue
 
-= 1.0.0 =
-* Initial release.
+[Changelog](https://plugins.svn.wordpress.org/add-on-contact-form-7-mailpoet/trunk/changelog.txt)
 
 == Upgrade Notice ==
 

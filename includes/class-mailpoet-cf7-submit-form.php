@@ -49,8 +49,14 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 				$manager = WPCF7_ShortcodeManager::get_instance();
 				$scanned_tags = $manager->get_scanned_tags();
 
-				//Add new subscriber
-				$this->add_email_list($posted_data, $scanned_tags);
+				// unsubscribe first
+				$unsubscribed = $this->unsubscribe_email( $posted_data );
+
+				if ( $unsubscribed == false ){
+					//Add new subscriber
+					$this->add_email_list($posted_data, $scanned_tags);
+				}
+
 			}else{
 				return;
 			}
@@ -123,6 +129,29 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 			}
 		}//End of prepare_add_to_list
 
+		// Unsubscribe a email address
+		public function unsubscribe_email($form_data)
+		{
+			if ( isset($form_data['unsubscribe-email']) ){
+
+				if ( isset($form_data['your-email']) ){
+					
+					$subscriber_email = $form_data['your-email'];
+					$subscriber = Subscriber::findOne( $subscriber_email );
+
+					if ( $subscriber !== false ){
+
+						$subscriber->status = 'unsubscribed';
+						$subscriber->save();
+
+						return true;
+					}
+
+				}
+			}
+
+			return false;
+		} // End of unsubscribe_email 
 
 		/**
 		 * Find email and subscribe list id
