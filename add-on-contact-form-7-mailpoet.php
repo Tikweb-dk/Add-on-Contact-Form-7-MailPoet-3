@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name:       Add-on Add-on Contact Form 7 - Mailpoet 3
+ * Plugin Name:       Add-on Contact Form 7 - Mailpoet 3
  * Description:       Add a MailPoet 3 signup field to your Contact Form 7 forms.
- * Version:           1.2.0
+ * Version:           1.3.1
  * Author:            Tikweb
  * Author URI:        http://www.tikweb.dk/
  * License:           GPL-2.0+
@@ -135,3 +135,8 @@ require_once MCFI_ROOT_PATH . 'includes/class-mailpoet-cf7-submit-form.php';
  * Subscription consent tag
  */
 require_once MCFI_ROOT_PATH . 'includes/class-mailpoet-cf7-consent.php';
+
+/**
+ * Unsubscribe Shortcode
+ */
+require_once MCFI_ROOT_PATH . 'includes/class-mailpoet-cf7-unsubscribe.php';
