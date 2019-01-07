@@ -1,5 +1,19 @@
 == Changelog ==
 
+= 1.3.0 – 2018-06-11 =
+* Added a new option for ‘Privacy Policy Notice Page’ that is for the GDPR compliance and ask for allow consent in the subscription form.
+
+* Modified the previous shortcode for the 'Unsubscribe email' from the list
+
+* Added a new shortcode for the 'MailPoet Consent', here is the example of shoortcode,
+
+[mpconsent mpconsent-name privacypage:http://mywebsite.com/index.php/privacy-policy/ "By subscribing you agree to receive our promotional marketing materials and agree with out {privacypage}. You may unsubscribe at any time."]
+
+= 1.2.0 – 2018-05-16 =
+* Added a new features that is, register with the lists that the user wants, not that all are mandatory.
+
+All possible lists are created and that the user chooses which one to register.
+
 = 1.1.0 – 2017-11-22 =
 * Fixed auto subscribed issue.
 
