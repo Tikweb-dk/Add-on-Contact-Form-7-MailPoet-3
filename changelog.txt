@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 1.3.2 – 2019-02-28 =
+* Fixes - Infinite loading of submit button.
+* Fixes - Issues with newest Mailpoet v3.19.3
+
+= 1.3.1 – 2018-06-12 =
+* Designed a new shortcode for the opt out or Unsubscribe option.
+
 = 1.3.0 – 2018-06-11 =
 * Added a new option for ‘Privacy Policy Notice Page’ that is for the GDPR compliance and ask for allow consent in the subscription form.
 

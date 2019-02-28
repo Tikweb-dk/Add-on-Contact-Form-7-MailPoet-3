@@ -120,7 +120,10 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 					);
 
 					//Save subcriber data
-					$subscriber = Subscriber::subscribe($subscribe_data, $subscribe_data['segments']);
+                    $subscriber = Subscriber::createOrUpdate($subscribe_data);
+                    if(!$subscriber){
+                        return;
+                    }
 				}
 
 			}else{

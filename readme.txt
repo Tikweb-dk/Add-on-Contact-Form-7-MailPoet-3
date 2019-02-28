@@ -3,9 +3,9 @@ Contributors: kasperta
 Tags: mailpoet, contact form 7, cf7, form, forms, contact form, wysija, mail, email, e-mail, extension, add-on, newsletter, newsletters, subscription, checkout, list, lists, double opt-in
 Donate link: http://www.tikweb.dk/donate/
 Requires at least: 4.6
-Tested up to: 4.9
+Tested up to: 5.1
 Requires PHP: 5.2
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 
 Add a MailPoet 3 signup field to your Contact Form 7 forms.
 
@@ -123,9 +123,6 @@ After installing & activating the plugin it's time to set up your form.
 3. A view of the MailPoet Consent Tag Generator
 
 == Changelog ==
-
-= 1.3.1 – 2018-06-12 =
-* Designed a new shortcode for the opt out or Unsubscribe option.
 
 [Changelog](https://plugins.svn.wordpress.org/add-on-contact-form-7-mailpoet/trunk/changelog.txt)
 
