@@ -11,7 +11,7 @@
 use MailPoet\Models\Subscriber;
 
 if(!class_exists('MailPoet_CF7_Submit_Form')){
-	class MailPoet_CF7_Submit_Form 
+	class MailPoet_CF7_Submit_Form
 	{
 		/**
 		 * Initialize the class
@@ -122,7 +122,7 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 					//Save subcriber data
 					$subscriber = Subscriber::subscribe($subscribe_data, $subscribe_data['segments']);
 				}
-				
+
 			}else{
 				//If the dont have mailpoet tag then return
 				return;
@@ -135,7 +135,7 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 			if ( isset($form_data['unsubscribe-email']) ){
 
 				if ( isset($form_data['your-email']) ){
-					
+
 					$subscriber_email = $form_data['your-email'];
 					$subscriber = Subscriber::findOne( $subscriber_email );
 
@@ -151,7 +151,7 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 			}
 
 			return false;
-		} // End of unsubscribe_email 
+		} // End of unsubscribe_email
 
 		/**
 		 * Find email and subscribe list id
@@ -178,17 +178,17 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 		}//End of get_email_and_list_id
 
 		/**
-		 * Get list ids 
+		 * Get list ids
 		 * @return  Array of list id
 		 */
 		public function get_list_ids($form_data, $mailpoetsignup)
 		{
 			$ids_string_array = array();
 			$ids_string = '';
-			
+
 			foreach($mailpoetsignup as $mailpoet_name){
 				if(isset($form_data[$mailpoet_name]) && !empty($form_data[$mailpoet_name])){
-					
+
 					if ( is_array($form_data[$mailpoet_name]) ){
 						$ids_string_array = $form_data[$mailpoet_name];
 					} else {
@@ -200,13 +200,13 @@ if(!class_exists('MailPoet_CF7_Submit_Form')){
 			if(!empty($ids_string_array)){
 				$ids_string = implode(",", $ids_string_array);
 			}
-			
+
 			if ( !empty($ids_string) ){
 				return explode(",", $ids_string);
 			} else {
 				return [];
 			}
-			
+
 		}//get_list_ids
 
 	}//End of class

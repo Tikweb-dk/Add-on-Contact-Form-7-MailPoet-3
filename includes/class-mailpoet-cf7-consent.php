@@ -9,7 +9,7 @@ class MailpoetSubscriptionConsent
 		add_action('wpcf7_init', array($this, 'cf7_init'));
 
 		// Admin init
-		add_action('admin_init', array($this, 'admin_init'), 20);	
+		add_action('admin_init', array($this, 'admin_init'), 20);
 
 	} // end of __construct
 
@@ -108,7 +108,7 @@ class MailpoetSubscriptionConsent
 		}
 
 		ob_start();
-		
+
 		?>
 
 		<span class="wpcf7-form-control-wrap <?php echo $tag->name; ?>">
@@ -208,11 +208,11 @@ class MailpoetSubscriptionConsent
 			<br class="clear" />
 			<p class="description mail-tag">
 				<label>
-					<?php 
-						printf( 
-							esc_html__( "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", 'contact-form-7' ), 
-							'<strong><span class="mail-tag"></span></strong>' 
-						); 
+					<?php
+						printf(
+							esc_html__( "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", 'contact-form-7' ),
+							'<strong><span class="mail-tag"></span></strong>'
+						);
 					?>
 					<input type="text" class="mail-tag code hidden" readonly="readonly" />
 				</label>
