@@ -10,7 +10,7 @@
 use MailPoet\Models\Segment;
 
 if(!class_exists('MailPoet_CF7_Integration')){
-	class MailPoet_CF7_Integration 
+	class MailPoet_CF7_Integration
 	{
 		/**
 		 * Initialize the class
@@ -31,7 +31,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			add_action('wpcf7_init', array($this, 'cf7_init'));
 
 			// Admin init
-			add_action('admin_init', array($this, 'admin_init'), 20);			
+			add_action('admin_init', array($this, 'admin_init'), 20);
 
 			// Form validation
 			add_filter( 'wpcf7_validate_mailpoetsignup', array($this, 'mailpoetsignup_validation'), 10, 2 );
@@ -50,7 +50,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			//Add Mailpoet Signup tag
 			wpcf7_add_form_tag(
 				array('mailpoetsignup', 'mailpoetsignup*'),
-				array($this, 'mailpoet_signup_form_tag'), 
+				array($this, 'mailpoet_signup_form_tag'),
 				array('name-attr' => true)
 			);
 
@@ -75,7 +75,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 
 			//Checkbox Label
 			$label = empty($tag->values) ? $this->__('Sign up for the newsletter') : array_shift($tag->values);
-			
+
 			//id attribute
 			$id_option = $tag->get_id_option();
 			$id = empty($id_option) ? $tag->name : $id_option;
@@ -99,7 +99,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 
 			ob_start(); //Start buffer to return
 			?>
-			
+
 			<?php if ( count( $mp_segments ) > 1 && $tag->has_option('subscriber-choice') ): ?>
 
 				<span class="wpcf7-form-control-wrap <?php echo $tag->name; ?>">
@@ -110,7 +110,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 									<input type="checkbox" <?= $attributes; ?> value="<?= $key; ?>" <?php checked($tag->has_option('default:on'), true); ?>> <span class="wpcf7-list-value"><?= $value; ?></span><br/>
 								</label>
 							<?php endforeach; ?>
-						
+
 					</span>
 
 					<?php echo $validation_error; //Show validation error ?>
@@ -119,21 +119,21 @@ if(!class_exists('MailPoet_CF7_Integration')){
 				<span class="wpcf7-form-control-wrap <?php echo $tag->name; ?>">
 					<span class="<?php echo $controls_class; ?>">
 						<label class="wpcf7-list-label">
-							<input type="checkbox" 
+							<input type="checkbox"
 								<?php echo $attributes; ?>
 								value="<?php echo key( $mp_segments ); ?>"
 								<?php checked($tag->has_option('default:on'), true); ?>
 							/>
-						<?php echo $label; ?>	
+						<?php echo $label; ?>
 						</label>
-						<br/>	
+						<br/>
 					</span>
 
 				</span>
 
 			<?php
 			endif; //End of $tag->has_option('label-inside-span')
-			
+
 			//Return all HTML output
 			return ob_get_clean();
 
@@ -152,7 +152,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 		 * Convert mailpoet list ids to list name;
 		 */
 		public function mailpoet_segments_data( $list_ids ){
-			
+
 			if ( empty($list_ids) || !is_array($list_ids) ){
 				return [];
 			}
@@ -165,7 +165,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 
 				$seg_key = array_search( $value, array_column($segments, 'id') );
 				$ret[$value] = $segments[$seg_key]['name'];
-				
+
 			}
 
 			return $ret;
@@ -180,7 +180,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 			if(!class_exists('WPCF7_TagGenerator')) return;
 			$tag_generator = WPCF7_TagGenerator::get_instance();
 			$tag_generator->add(
-				'mailpoetsignup', 
+				'mailpoetsignup',
 				$this->__('Mailpoet Signup'),
 				array($this, 'mailpoetsignup_tag_generator')
 			);
@@ -209,8 +209,8 @@ if(!class_exists('MailPoet_CF7_Integration')){
 
 							<tr>
 								<th scope="row"><?php echo $this->__('MailPoet Lists'); ?></th>
-								<td>					
-									<?php 
+								<td>
+									<?php
 										$sagments = Segment::where_not_equal('type', Segment::TYPE_WP_USERS)->findArray();
 										if(is_array($sagments)): foreach($sagments as $sagment):
 									?>
@@ -288,7 +288,7 @@ if(!class_exists('MailPoet_CF7_Integration')){
 					</table>
 				</fieldset>
 			</div><!-- /.control-box -->
-			
+
 			<!-- Show Insert shortcode in popup -->
 			<div class="insert-box">
 				<input type="text" name="mailpoetsignup" class="tag code" readonly="readonly" onfocus="this.select()" />
@@ -298,11 +298,11 @@ if(!class_exists('MailPoet_CF7_Integration')){
 				<br class="clear" />
 				<p class="description mail-tag">
 					<label>
-						<?php 
-							printf( 
-								esc_html__( "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", 'contact-form-7' ), 
-								'<strong><span class="mail-tag"></span></strong>' 
-							); 
+						<?php
+							printf(
+								esc_html__( "To use the value input through this field in a mail field, you need to insert the corresponding mail-tag (%s) into the field on the Mail tab.", 'contact-form-7' ),
+								'<strong><span class="mail-tag"></span></strong>'
+							);
 						?>
 						<input type="text" class="mail-tag code hidden" readonly="readonly" />
 					</label>
